@@ -2,6 +2,7 @@ package lib
 
 import (
 	"crypto/rand"
+	"encoding/binary"
 	"fmt"
 )
 
@@ -75,6 +76,13 @@ func meetsRequirements(password string, options PasswordOptions) bool {
 	return true
 }
 
+func randInt(max int) int {
+	buffer := make([]byte, 8)
+	rand.Read(buffer)
+	i, _ := binary.Uvarint(buffer)
+	return int(i) % max
+}
+
 func randomPassword(length uint, options PasswordOptions) string {
 	var valid []rune
 
@@ -100,11 +108,8 @@ func randomPassword(length uint, options PasswordOptions) string {
 
 	var result []rune
 
-	buffer := make([]byte, 1)
 	for i := uint(0); i < length; i++ {
-		rand.Read(buffer)
-		i := buffer[0] % byte(len(valid))
-		result = append(result, valid[i])
+		result = append(result, valid[randInt(len(valid))])
 	}
 
 	return string(result)}

@@ -8,5 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println(lib.RandomPassword(24))
+	fmt.Println(lib.RandomPasswordOpts(24, lib.DEFAULT_OPTIONS))
+	fmt.Println(lib.RandomPasswordOpts(24, lib.DEFAULT_OPTIONS ^ lib.INCLUDE_SPECIAL))
+	fmt.Println(lib.XKCDPassword(24))
 }
